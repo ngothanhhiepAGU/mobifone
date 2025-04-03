@@ -5,6 +5,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 
 
+Route::get('/', function () {
+    return view('frontend.home');
+});
 
 Route::get('/admin/home', [AdminController::class, 'getHome'])->name('admin.home');
 
