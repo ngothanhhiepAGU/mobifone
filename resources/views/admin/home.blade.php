@@ -2,6 +2,6 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h2>Welcome to Admin Home Page</h2>
-    <p>This is the home page of the admin section.</p>
+    <h2>Chào mừng bạn đã đễ trang admin</h2>
+    <p>Đây là tràn dành cho các cá nhân quản trị. Chức bạn một ngày tốt lành</p>
 @endsection

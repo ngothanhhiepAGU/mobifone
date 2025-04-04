@@ -17,6 +17,11 @@
 
   @include('partials.navbar')
   @include('partials.sidebar')
+
+  <main class="main">
+        @yield('content')  {{-- Đây là nơi nội dung động sẽ được hiển thị --}}
+  </main>
+
   @include('partials.footer')
   
 </div>

@@ -46,7 +46,7 @@
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Quản lý người dùng</p>
+                  <p>Quản lý sim</p>
                 </a>
               </li>
               <li class="nav-item">
