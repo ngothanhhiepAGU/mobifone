@@ -8,11 +8,22 @@ use Illuminate\Http\Request;
 class SimController extends Controller
 {
     // Hiển thị danh sách SIM
-    public function index()
+    public function index(Request $request)
     {
-        $sims = Sim::all(); // Lấy tất cả dữ liệu SIM
-        return view('admin.sims.index', compact('sims')); // Trả về view danh sách SIM
+        $query = Sim::query();
+
+        // Tìm kiếm SIM theo số SIM hoặc loại SIM
+        if ($request->has('search')) {
+            $query->where('so_sim', 'like', '%' . $request->search . '%')
+                ->orWhere('loai_sim', 'like', '%' . $request->search . '%');
+        }
+
+        // Lấy danh sách SIM với phân trang
+        $sims = $query->paginate(10); // 10 SIM mỗi trang
+
+        return view('admin.sims.index', compact('sims'));
     }
+
 
     // Hiển thị form tạo mới SIM
     public function create()

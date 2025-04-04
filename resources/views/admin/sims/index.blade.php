@@ -1,4 +1,3 @@
-<!-- resources/views/admin/sims/index.blade.php -->
 @extends('layouts.admin')
 
 @section('content')
