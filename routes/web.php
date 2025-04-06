@@ -5,6 +5,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SimController;
 
+
+Route::resource('sims', SimController::class);
+
 // Nhóm route cho admin
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('sims', SimController::class);

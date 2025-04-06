@@ -18,12 +18,13 @@
   @include('partials.navbar')
   @include('partials.sidebar')
 
-  <main class="main">
-        @yield('content')  {{-- Đây là nơi nội dung động sẽ được hiển thị --}}
-  </main>
+  <!-- Thêm class content-wrapper -->
+  <div class="content-wrapper" style="margin-left: 250px; padding: 20px;">
+    @yield('content')  {{-- Đây là nơi nội dung động sẽ được hiển thị --}}
+  </div>
 
   @include('partials.footer')
-  
+
 </div>
 <!-- ./wrapper -->
 
