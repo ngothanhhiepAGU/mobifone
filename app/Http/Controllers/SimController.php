@@ -24,14 +24,7 @@ class SimController extends Controller
         return view('admin.sims.index', compact('sims'));
     }
 
-
-    // Hiển thị form tạo mới SIM
-    public function create()
-    {
-        return view('admin.sims.create');
-    }
-
-    // Lưu SIM mới
+    // Xử lý thêm SIM (AJAX)
     public function store(Request $request)
     {
         $request->validate([
@@ -42,19 +35,15 @@ class SimController extends Controller
             'ngay_kich_hoat' => 'nullable|date',
         ]);
 
-        Sim::create($request->all()); // Lưu dữ liệu SIM vào cơ sở dữ liệu
+        $sim = Sim::create($request->all());
 
-        return redirect()->route('admin.sims.index')->with('success', 'SIM được tạo thành công.');
+        return response()->json([
+            'message' => 'SIM được tạo thành công.',
+            'sim' => $sim
+        ]);
     }
 
-    // Hiển thị form sửa SIM
-    public function edit($id)
-    {
-        $sim = Sim::findOrFail($id); // Lấy dữ liệu SIM theo ID
-        return view('admin.sims.edit', compact('sim'));
-    }
-
-    // Cập nhật SIM
+    // Xử lý cập nhật SIM (AJAX)
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -65,18 +54,22 @@ class SimController extends Controller
             'ngay_kich_hoat' => 'nullable|date',
         ]);
 
-        $sim = Sim::findOrFail($id); // Lấy SIM theo ID
-        $sim->update($request->all()); // Cập nhật dữ liệu SIM
+        $sim = Sim::find($id);
+        if (!$sim) {
+            return response()->json(['message' => 'SIM không tồn tại!'], 404);
+        }
 
-        return redirect()->route('admin.sims.index')->with('success', 'SIM được cập nhật thành công.');
+        $sim->update($request->all());
+
+        return response()->json(['message' => 'SIM được cập nhật thành công!']);
     }
 
-    // Xóa SIM
+    // Xóa SIM (AJAX)
     public function destroy($id)
     {
         $sim = Sim::findOrFail($id);
-        $sim->delete(); // Xóa SIM
+        $sim->delete();
 
-        return redirect()->route('admin.sims.index')->with('success', 'SIM đã bị xóa.');
+        return response()->json(['message' => 'SIM đã bị xóa.']);
     }
 }
