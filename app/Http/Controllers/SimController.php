@@ -27,15 +27,15 @@ class SimController extends Controller
     // Xử lý thêm SIM (AJAX)
     public function store(Request $request)
     {
-        $request->validate([
-            'so_sim' => 'required|unique:sims',
+        $validated = $request->validate([
+            'so_sim' => 'required|unique:sims,so_sim',
             'loai_sim' => 'required',
             'nha_mang' => 'required',
             'trang_thai' => 'required|in:kich hoat,chua kich hoat,chan',
             'ngay_kich_hoat' => 'nullable|date',
         ]);
 
-        $sim = Sim::create($request->all());
+        $sim = Sim::create($validated);
 
         return response()->json([
             'message' => 'SIM được tạo thành công.',
@@ -65,9 +65,15 @@ class SimController extends Controller
     }
 
     // Xóa SIM (AJAX)
+    
     public function destroy($id)
     {
-        $sim = Sim::findOrFail($id);
+        $sim = Sim::find($id);
+
+        if (!$sim) {
+            return response()->json(['message' => 'Không tìm thấy SIM'], 404);
+        }
+
         $sim->delete();
 
         return response()->json(['message' => 'SIM đã bị xóa.']);

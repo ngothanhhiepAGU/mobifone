@@ -4,12 +4,10 @@
 <div class="container mt-4">
     <h2 class="text-center mb-4">Quản lý SIM</h2>
 
-    <!-- Thêm SIM Button -->
-    <div class="mb-3 text-end">
-        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalThem">
-            <i class="fas fa-plus"></i> Thêm SIM
-        </button>
-    </div>
+    <!-- Nút Thêm SIM -->
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalThem">
+        <i class="fas fa-plus"></i> Thêm SIM
+    </button>
 
     <!-- Danh sách SIM -->
     <div class="table-responsive">
@@ -163,6 +161,7 @@ $(document).ready(function () {
         });
     });
 
+
     // Cập nhật SIM
     $('#formSua').submit(function (event) {
         event.preventDefault();
@@ -186,16 +185,18 @@ $(document).ready(function () {
 });
 
 // Mở modal sửa SIM
-function moModalSua(so_id, so_sim, nha_mang, trang_thai, loai_sim) {
-    $('#so_id_sua').val(so_id);
+function moModalSua(id, so_sim, nha_mang, trang_thai, loai_sim) {
+    $('#so_id_sua').val(id);
     $('#sodt_sua').val(so_sim);
     $('#network_provider_sua').val(nha_mang);
-    $('#status_sua').val(trang_thai);  // Đảm bảo status có giá trị đúng
+    $('#status_sua').val(trang_thai);
+    $('select[name="loai_thue_bao"]').val(loai_sim);
     $('#modalSua').modal('show');
 }
 
+
 // Xóa SIM
-function xoaSim(so_id) {
+function xoaSim(id) {
     Swal.fire({
         title: "Bạn có chắc chắn muốn xóa?",
         icon: "warning",
@@ -205,12 +206,12 @@ function xoaSim(so_id) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "/admin/sims/" + so_id,
+                url: "/admin/sims/" + id,
                 type: "POST",
                 data: { _method: "DELETE", _token: "{{ csrf_token() }}" },
                 success: function () {
                     Swal.fire("Đã xóa!", "SIM đã được xóa.", "success");
-                    location.reload();
+                    $('#sim_' + id).remove();
                 },
                 error: function () {
                     Swal.fire("Lỗi!", "Không thể xóa SIM.", "error");

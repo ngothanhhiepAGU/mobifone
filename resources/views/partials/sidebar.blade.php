@@ -52,27 +52,10 @@
             </li>
             <!-- Liên kết đến Gối cước và dịch vụ -->
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>
-                  Gối cước và dịch vụ
-                  <i class="right fas fa-angle-left"></i>
-                </p>
+              <a href="{{ route('admin.goi-cuocs.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Gói cước</p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-dot-circle nav-icon"></i>
-                    <p>Gối cước</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-dot-circle nav-icon"></i>
-                    <p>Danh sách số đã đăng ký</p>
-                  </a>
-                </li>
-              </ul>
             </li>
             <!-- Liên kết đến Hỗ trợ khách hàng -->
             <li class="nav-item has-treeview">
