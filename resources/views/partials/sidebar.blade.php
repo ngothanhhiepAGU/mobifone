@@ -57,6 +57,13 @@
                   <p>Gói cước</p>
               </a>
             </li>
+            <!-- Liên kết đến bài đăng-->
+            <li class="nav-item">
+                <a href="{{ route('admin.bai-dangs.index') }}" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Bài đăng</p>
+                </a>
+            </li>
             <!-- Liên kết đến Hỗ trợ khách hàng -->
             <li class="nav-item has-treeview">
               <a href="#" class="nav-link">

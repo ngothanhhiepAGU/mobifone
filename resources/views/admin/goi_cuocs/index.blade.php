@@ -123,7 +123,7 @@ $(document).ready(function () {
         let formData = $(this).serialize();
 
         $.ajax({
-            url: "{{ route('admin.goi_cuoc.store') }}",
+            url: "{{ route('admin.goi-cuocs.store') }}",
             type: "POST",
             data: formData,
             success: function (response) {

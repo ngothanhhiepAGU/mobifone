@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SimController;
 use App\Http\Controllers\GoiCuocController;
+use App\Http\Controllers\BaiDangController;
 
 
 
@@ -21,6 +22,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Nhóm route cho goi cước
     Route::resource('goi-cuocs', GoiCuocController::class);
+    Route::post('goi_cuoc', [GoiCuocController::class, 'store'])->name('goi_cuoc.store');
+
+    // Nhóm route cho bài đăng
+    Route::resource('bai-dangs', BaiDangController::class);
 
 });
 
