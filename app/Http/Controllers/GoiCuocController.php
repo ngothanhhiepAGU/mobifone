@@ -31,7 +31,8 @@ class GoiCuocController extends Controller
             'gia' => 'required|numeric|min:0',
             'nha_mang' => 'required|string|max:255',
             'mo_ta' => 'nullable|string',
-            'thoi_han' => 'nullable|integer|min:1'
+            'thoi_han' => 'nullable|integer|min:1',
+            'cu_phap' => 'nullable|string|max:255', // Thêm cú pháp
         ]);
 
         $goiCuoc = GoiCuoc::create($validated);
@@ -45,12 +46,13 @@ class GoiCuocController extends Controller
     // Cập nhật gói cước (AJAX)
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'ten_goi' => 'required|string|max:255',
             'gia' => 'required|numeric|min:0',
             'nha_mang' => 'required|string|max:255',
             'mo_ta' => 'nullable|string',
-            'thoi_han' => 'nullable|integer|min:1'
+            'thoi_han' => 'nullable|integer|min:1',
+            'cu_phap' => 'nullable|string|max:255', // Thêm cú pháp
         ]);
 
         $goiCuoc = GoiCuoc::find($id);
@@ -59,7 +61,7 @@ class GoiCuocController extends Controller
             return response()->json(['message' => 'Không tìm thấy gói cước.'], 404);
         }
 
-        $goiCuoc->update($request->all());
+        $goiCuoc->update($validated);
 
         return response()->json(['message' => 'Gói cước đã được cập nhật.']);
     }

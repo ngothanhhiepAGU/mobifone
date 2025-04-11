@@ -18,12 +18,11 @@ class GoiCuoc extends Model
         'nha_mang',         // Nhà mạng (Viettel, Mobifone, Vinaphone,...)
         'mo_ta',            // Mô tả gói cước
         'thoi_han',         // Thời hạn sử dụng (ngày)
+        'cu_phap',          // ✅ Cú pháp đăng ký gói cước
     ];
 
     // Các trường cần chuyển đổi kiểu dữ liệu
     protected $casts = [
-        'thoi_han' => 'integer',  // Đảm bảo 'thoi_han' được xử lý như kiểu số nguyên
+        'thoi_han' => 'integer',
     ];
-
-    // Các phương thức truy vấn hoặc xử lý dữ liệu khác có thể thêm vào nếu cần
 }

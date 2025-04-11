@@ -119,11 +119,17 @@
 
       var mainSwiper = new Swiper(".main-swiper", {
         speed: 500,
+        loop: true, // vòng lặp vô hạn
+        autoplay: {
+          delay: 3000, // mỗi 3 giây chuyển 1 slide
+          disableOnInteraction: false // không tắt autoplay khi người dùng thao tác
+        },
         navigation: {
           nextEl: ".main-slider-button-next",
           prevEl: ".main-slider-button-prev",
         },
       });
+      
 
       var productSwiper = new Swiper(".product-swiper", {
         spaceBetween: 20,        

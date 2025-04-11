@@ -19,6 +19,7 @@
                     <th>Nhà Mạng</th>
                     <th>Giá</th>
                     <th>Thời Hạn</th>
+                    <th>Cú pháp</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
@@ -30,9 +31,11 @@
                     <td>{{ $goiCuoc->nha_mang }}</td>
                     <td>{{ number_format($goiCuoc->gia, 0, ',', '.') }} VND</td>
                     <td>{{ $goiCuoc->thoi_han }} ngày</td>
+                    <td>{{ $goiCuoc->cu_phap }}</td>
 
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="moModalSuaGoiCuoc({{ $goiCuoc->id }}, '{{ $goiCuoc->ten_goi }}', '{{ $goiCuoc->nha_mang }}', {{ $goiCuoc->gia }}, {{ $goiCuoc->thoi_han }})">
+                        <button class="btn btn-warning btn-sm"
+                            onclick="moModalSuaGoiCuoc({{ $goiCuoc->id }}, '{{ $goiCuoc->ten_goi }}', '{{ $goiCuoc->nha_mang }}', {{ $goiCuoc->gia }}, {{ $goiCuoc->thoi_han }})">
                             <i class="fas fa-edit"></i> Sửa
                         </button>
                         <button class="btn btn-danger btn-sm" onclick="xoaGoiCuoc({{ $goiCuoc->id }})">
@@ -73,6 +76,10 @@
                         <label>Thời Hạn</label>
                         <input type="number" class="form-control" name="thoi_han" required>
                     </div>
+                    <div class="mb-3">
+                        <label>Cú pháp</label>
+                        <input type="text" class="form-control" name="cu_phap" required>
+                    </div>
                     <button type="submit" class="btn btn-primary">Thêm</button>
                 </form>
             </div>
@@ -107,6 +114,10 @@
                     <div class="mb-3">
                         <label class="form-label">Thời Hạn</label>
                         <input type="number" class="form-control" id="thoi_han_sua" name="thoi_han" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Cú pháp</label>
+                        <input type="text" class="form-control" id="cu_phap_sua" name="cu_phap" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Cập nhật</button>
                 </form>
@@ -165,12 +176,13 @@ $(document).ready(function () {
 });
 
 // Mở modal sửa Gói Cước
-function moModalSuaGoiCuoc(id, ten_goi, nha_mang, gia, thoi_han) {
+function moModalSuaGoiCuoc(id, ten_goi, nha_mang, gia, thoi_han, cu_phap) {
     $('#goiCuoc_id_sua').val(id);
     $('#ten_goi_sua').val(ten_goi);
     $('#nha_mang_sua').val(nha_mang);
     $('#gia_sua').val(gia);
     $('#thoi_han_sua').val(thoi_han);
+    $('#cu_phap_sua').val(cu_phap);
     $('#modalSuaGoiCuoc').modal('show');
 }
 

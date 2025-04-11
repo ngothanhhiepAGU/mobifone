@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('gia');                // Giá tiền (đơn vị VNĐ)
             $table->integer('thoi_han');           // Thời hạn sử dụng (tính theo ngày)
             $table->string('nha_mang');            // Nhà mạng áp dụng
+            $table->string('cu_phap')->nullable(); // Cú pháp đăng ký gói
             $table->timestamps();                  // created_at và updated_at
         });
     }
