@@ -5,13 +5,13 @@
 
 @include('frontend.banner')
 @include('frontend.danhmuc')
-@include('frontend.bestsell')
+<!--@include('frontend.bestsell')-->
 @include('frontend.time')
 @include('frontend.danhmucsanpham')
 
-@include('frontend.reviews')
 @include('frontend.trangtin')
 @include('frontend.insta')
+@include('frontend.reviews')
 
 
 @endsection

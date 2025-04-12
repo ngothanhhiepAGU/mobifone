@@ -17,6 +17,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightslider/dist/css/lightslider.min.css" />
 </head>
 <body>
     
@@ -198,6 +201,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <!-- Bootstrap 5 JS + Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lightslider/dist/js/lightslider.min.js"></script>
+
     <script>
       const swiper = new Swiper(".main-swiper", {
         loop: true,
@@ -210,7 +217,18 @@
           prevEl: ".main-slider-button-prev",
         },
       });
-</script>
+    </script>
+    <script>
+    $(document).ready(function() {
+        $(".lightSlider").lightSlider({
+            item: 3,
+            loop: true,
+            slideMargin: 32,
+            pager: true,
+            controls: true,
+        });
+    });
+    </script>
 </body>
 </html>
 

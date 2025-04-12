@@ -40,50 +40,65 @@
         <ul id="navbar"
           class="navbar-nav text-uppercase justify-content-start justify-content-lg-center align-items-start align-items-lg-center flex-grow-1">
           <li class="nav-item">
-            <a class="nav-link me-4 active" href="index.html">Home</a>
+            <a class="nav-link me-4 active" href="index.html"> DỊCH VỤ DI ĐỘNG</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link me-4" href="index.html">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-4" href="index.html">Shop</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-4" href="index.html">Blogs</a>
-          </li>
+
           <li class="nav-item dropdown">
             <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-              aria-expanded="false">Pages</a>
+              aria-expanded="false">HỔ TRỢ</a>
             <ul class="dropdown-menu animate slide border">
               <li>
                 <a href="index.html" class="dropdown-item fw-light">About</a>
               </li>
               <li>
-                <a href="index.html" class="dropdown-item fw-light">Shop</a>
-              </li>
-              <li>
-                <a href="index.html" class="dropdown-item fw-light">Single Product</a>
-              </li>
-              <li>
-                <a href="index.html" class="dropdown-item fw-light">Cart</a>
-              </li>
-              <li>
-                <a href="index.html" class="dropdown-item fw-light">Checkout</a>
-              </li>
-              <li>
-                <a href="index.html" class="dropdown-item fw-light">Blog</a>
-              </li>
-              <li>
-                <a href="index.html" class="dropdown-item fw-light">Single Post</a>
-              </li>
-              <li>
-                <a href="index.html" class="dropdown-item fw-light">Contact</a>
+                <a href="index.html" class="dropdown-item fw-light">About</a>
               </li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link me-4" href="index.html">Contact</a>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+              aria-expanded="false">kHUYẾN MẠI</a>
+            <ul class="dropdown-menu animate slide border">
+              <li>
+                <a href="index.html" class="dropdown-item fw-light">About</a>
+              </li>
+              <li>
+                <a href="index.html" class="dropdown-item fw-light">About</a>
+              </li>
+            </ul>
           </li>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+              aria-expanded="false">MY MOBIFONE</a>
+            <ul class="dropdown-menu animate slide border">
+              <li>
+                <a href="index.html" class="dropdown-item fw-light">About</a>
+              </li>
+              <li>
+                <a href="index.html" class="dropdown-item fw-light">About</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+              aria-expanded="false">RECRUITMENT</a>
+            <ul class="dropdown-menu animate slide border">
+              <li>
+                <a href="index.html" class="dropdown-item fw-light">About</a>
+              </li>
+              <li>
+                <a href="index.html" class="dropdown-item fw-light">About</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link me-4 active" href="index.html">TIN MỚI</a>
+          </li>
+
         </ul>
         <div class="user-items d-flex">
           <ul class="d-flex justify-content-end list-unstyled mb-0">
