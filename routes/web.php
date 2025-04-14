@@ -7,9 +7,14 @@ use App\Http\Controllers\SimController;
 use App\Http\Controllers\GoiCuocController;
 use App\Http\Controllers\BaiDangController;
 
+// Trang chủ frontend
+Route::get('/', function () {
+    return view('frontend.home');
+});
 
-
-Route::resource('sims', SimController::class);
+// Trang tin tức (frontend)
+Route::get('/tin-tuc', [BaiDangController::class, 'frontendIndex'])->name('tin_tuc.index');
+Route::get('/tin-tuc/{id}', [BaiDangController::class, 'show'])->name('tin_tuc.show');
 
 // Nhóm route cho admin
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -18,18 +23,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Nhóm route cho sim
     Route::resource('sims', SimController::class);
-    Route::post('admin/sims/store', [SimController::class, 'store'])->name('admin.sims.store');
+    Route::post('sims/store', [SimController::class, 'store'])->name('sims.store');
 
-    // Nhóm route cho goi cước
+    // Nhóm route cho gói cước
     Route::resource('goi-cuocs', GoiCuocController::class);
-    Route::post('goi_cuoc', [GoiCuocController::class, 'store'])->name('goi_cuoc.store');
+    Route::post('goi-cuoc/store', [GoiCuocController::class, 'store'])->name('goi_cuoc.store');
 
     // Nhóm route cho bài đăng
     Route::resource('bai-dangs', BaiDangController::class);
-
-});
-
-// Trang chủ
-Route::get('/', function () {
-    return view('frontend.home');
+    Route::get('/bai-dang', [BaiDangController::class, 'frontendIndex']);
+    Route::get('/bai-dang/{id}', [BaiDangController::class, 'show']);
+    
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BaiDang;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class BaiDangController extends Controller
 {
@@ -70,5 +71,19 @@ class BaiDangController extends Controller
         $post->delete();
 
         return response()->json(['message' => 'Bài viết đã bị xóa.']);
+    }
+
+    public function frontendIndex()
+    {
+        $tinChinh = BaiDang::latest('ngay_dang')->take(4)->get();
+        $tinKhac = BaiDang::latest('ngay_dang')->skip(4)->take(8)->get();
+
+        return view('frontend.bai_dang.index', compact('tinChinh', 'tinKhac'));
+    }
+
+    public function show($id)
+    {
+        $baiDang = BaiDang::findOrFail($id);
+        return view('frontend.bai_dang.show', compact('baiDang'));
     }
 }

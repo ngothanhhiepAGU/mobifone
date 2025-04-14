@@ -6,14 +6,6 @@
       <div class="col-md-4">
         <p class="fs-6 my-2 text-center">Need any help? Call us <a href="#">112233344455</a></p>
       </div>
-      <div class="col-md-4 border-start border-end">
-        <p class="fs-6 my-2 text-center">Summer sale discount off 60% off! <a class="text-decoration-underline"
-            href="index.html">Shop Now</a></p>
-      </div>
-      <div class="col-md-4">
-        <p class="fs-6 my-2 text-center">2-3 business days delivery & free returns</p>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -96,8 +88,11 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link me-4 active" href="index.html">TIN MỚI</a>
+            <a class="nav-link me-4 {{ request()->is('tin-tuc') ? 'active' : '' }}" href="{{ route('tin_tuc.index') }}">
+              TIN MỚI
+            </a>
           </li>
+
 
         </ul>
         <div class="user-items d-flex">

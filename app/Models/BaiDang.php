@@ -18,4 +18,12 @@ class BaiDang extends Model
         'hinh_anh',
         'ngay_dang',
     ];
+
+    public function getImageUrlAttribute()
+    {
+        return $this->hinh_anh 
+            ? asset('storage/' . $this->hinh_anh) 
+            : asset('images/default.png'); // ảnh mặc định
+    }
+
 }
