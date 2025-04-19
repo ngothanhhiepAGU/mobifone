@@ -18,6 +18,7 @@
                     <th>Tiêu đề</th>
                     <th>Tác giả</th>
                     <th>Ngày đăng</th>
+                    <th>Thể loại</th> <!-- Thêm cột thể loại -->
                     <th>Hành động</th>
                 </tr>
             </thead>
@@ -28,8 +29,9 @@
                     <td>{{ $baiDang->tieu_de }}</td>
                     <td>{{ $baiDang->tac_gia }}</td>
                     <td>{{ $baiDang->ngay_dang }}</td>
+                    <td>{{ $baiDang->the_loai ?? 'Chưa có' }}</td> <!-- Hiển thị thể loại -->
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="moModalSuaBaiDang({{ $baiDang->id }}, '{{ $baiDang->tieu_de }}', '{{ $baiDang->noi_dung }}', '{{ $baiDang->tac_gia }}')">
+                        <button class="btn btn-warning btn-sm" onclick="moModalSuaBaiDang({{ $baiDang->id }}, '{{ $baiDang->tieu_de }}', '{{ $baiDang->noi_dung }}', '{{ $baiDang->tac_gia }}', '{{ $baiDang->the_loai }}')">
                             <i class="fas fa-edit"></i> Sửa
                         </button>
                         <button class="btn btn-danger btn-sm" onclick="xoaBaiDang({{ $baiDang->id }})">
@@ -66,6 +68,10 @@
                         <label>Tác giả</label>
                         <input type="text" class="form-control" name="tac_gia" required>
                     </div>
+                    <div class="mb-3">
+                        <label>Thể loại</label>
+                        <input type="text" class="form-control" name="the_loai" required>
+                    </div>
                     <button type="submit" class="btn btn-primary">Thêm</button>
                 </form>
             </div>
@@ -96,6 +102,10 @@
                     <div class="mb-3">
                         <label class="form-label">Tác giả</label>
                         <input type="text" class="form-control" id="tac_gia_sua" name="tac_gia" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Thể loại</label>
+                        <input type="text" class="form-control" id="the_loai_sua" name="the_loai" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Cập nhật</button>
                 </form>
@@ -138,12 +148,12 @@ $(document).ready(function () {
         let formData = $(this).serialize();
 
         $.ajax({
-            url: "/admin/bai_dang/" + id,
-            type: "POST",
-            data: formData + "&_method=PUT",
+            url: "/admin/bai-dangs/" + id,  // Đảm bảo đường dẫn đúng
+            type: "POST",  // POST để Laravel xử lý PUT với method spoofing
+            data: formData + "&_method=PUT",  // Đảm bảo có thêm method spoofing
             success: function () {
                 Swal.fire("Thành công!", "Bài đăng đã được cập nhật.", "success");
-                location.reload();
+                location.reload();  // Reload lại trang để cập nhật
             },
             error: function (xhr) {
                 Swal.fire("Lỗi!", "Không thể cập nhật Bài đăng: " + xhr.responseText, "error");
@@ -153,11 +163,12 @@ $(document).ready(function () {
 });
 
 // Mở modal sửa
-function moModalSuaBaiDang(id, tieu_de, noi_dung, tac_gia) {
+function moModalSuaBaiDang(id, tieu_de, noi_dung, tac_gia, the_loai) {
     $('#baiDang_id_sua').val(id);
     $('#tieu_de_sua').val(tieu_de);
     $('#noi_dung_sua').val(noi_dung);
     $('#tac_gia_sua').val(tac_gia);
+    $('#the_loai_sua').val(the_loai);  // Thêm thể loại
     $('#modalSuaBaiDang').modal('show');
 }
 
