@@ -13,11 +13,14 @@ class BaiDangController extends Controller
     {
         $query = BaiDang::query();
 
-        // Tìm kiếm theo tiêu đề hoặc nội dung bài đăng
+        // Tìm kiếm theo tiêu đề, nội dung, tác giả hoặc thể loại
         if ($request->has('search')) {
-            $query->where('tieu_de', 'like', '%' . $request->search . '%')
+            $query->where(function ($q) use ($request) {
+                $q->where('tieu_de', 'like', '%' . $request->search . '%')
                   ->orWhere('noi_dung', 'like', '%' . $request->search . '%')
-                  ->orWhere('tac_gia', 'like', '%' . $request->search . '%');  // Thêm tìm kiếm theo tác giả
+                  ->orWhere('tac_gia', 'like', '%' . $request->search . '%')
+                  ->orWhere('the_loai', 'like', '%' . $request->search . '%'); // Thêm tìm theo thể loại
+            });
         }
 
         $baiDangs = $query->paginate(10); // Phân trang 10 bài mỗi trang
@@ -29,10 +32,11 @@ class BaiDangController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'tieu_de' => 'required|string|max:255',
-            'noi_dung' => 'required|string',
-            'tac_gia' => 'nullable|string|max:100',
+            'tieu_de'   => 'required|string|max:255',
+            'noi_dung'  => 'required|string',
+            'tac_gia'   => 'nullable|string|max:100',
             'ngay_dang' => 'nullable|date',
+            'the_loai'  => 'nullable|string|max:100', // Thêm kiểm tra thể loại
         ]);
 
         // Nếu không có ngày đăng, sử dụng ngày hiện tại
@@ -42,7 +46,7 @@ class BaiDangController extends Controller
 
         return response()->json([
             'message' => 'Bài viết đã được tạo.',
-            'baiDang' => $baiDang  // Trả về bài đăng mới được tạo
+            'baiDang' => $baiDang
         ]);
     }
 
@@ -50,10 +54,11 @@ class BaiDangController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'tieu_de' => 'required|string|max:255',
-            'noi_dung' => 'required|string',
-            'tac_gia' => 'nullable|string|max:100',
+            'tieu_de'   => 'required|string|max:255',
+            'noi_dung'  => 'required|string',
+            'tac_gia'   => 'nullable|string|max:100',
             'ngay_dang' => 'nullable|date',
+            'the_loai'  => 'nullable|string|max:100', // Thêm thể loại
         ]);
 
         $baiDang = BaiDang::find($id);
@@ -69,7 +74,7 @@ class BaiDangController extends Controller
 
         return response()->json([
             'message' => 'Bài viết đã được cập nhật.',
-            'baiDang' => $baiDang  // Trả về bài đăng đã cập nhật
+            'baiDang' => $baiDang
         ]);
     }
 
@@ -92,6 +97,14 @@ class BaiDangController extends Controller
     {
         $tinChinh = BaiDang::latest('ngay_dang')->take(4)->get();
         $tinKhac = BaiDang::latest('ngay_dang')->skip(4)->take(8)->get();
+
+        // Chắc chắn rằng các trường ngay_dang được chuyển thành đối tượng Carbon
+        foreach ($tinChinh as $tin) {
+            $tin->ngay_dang = Carbon::parse($tin->ngay_dang);
+        }
+        foreach ($tinKhac as $tin) {
+            $tin->ngay_dang = Carbon::parse($tin->ngay_dang);
+        }
         return view('frontend.bai_dang.index', compact('tinChinh', 'tinKhac'));
     }
 

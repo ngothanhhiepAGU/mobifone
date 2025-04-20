@@ -88,8 +88,8 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link me-4 {{ request()->is('bai-dang') ? 'active' : '' }}" href="{{ route('bai_dang.index') }}">
-              BÀI ĐĂNG
+            <a class="nav-link me-4 {{ request()->is('bai-dang') ? 'active' : '' }}"
+              href="{{ route('bai_dang.index') }}">BÀI ĐĂNG</a>
             </a>
           </li>
 

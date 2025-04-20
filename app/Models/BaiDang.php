@@ -42,14 +42,20 @@ class BaiDang extends Model
 
     // Xử lý ngày đăng, đảm bảo luôn có giá trị hợp lệ
     public static function boot()
-    {
-        parent::boot();
+{
+    parent::boot();
 
-        static::creating(function ($baiDang) {
-            if (!$baiDang->ngay_dang) {
-                $baiDang->ngay_dang = Carbon::now();
-            }
-        });
-    }
+    static::creating(function ($baiDang) {
+        if (!$baiDang->ngay_dang) {
+            $baiDang->ngay_dang = Carbon::now(); // Đảm bảo ngày đăng không null
+        }
+    });
+
+    static::updating(function ($baiDang) {
+        if (!$baiDang->ngay_dang) {
+            $baiDang->ngay_dang = Carbon::now(); // Đảm bảo ngày đăng không null khi cập nhật
+        }
+    });
+}
 
 }

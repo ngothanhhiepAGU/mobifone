@@ -11,8 +11,13 @@ use App\Http\Controllers\BaiDangController;
 Route::get('/', function () {
     return view('frontend.home');
 });
-    // Nhóm route cho admin
-    Route::prefix('admin')->name('admin.')->group(function () {
+
+// Trang bài đăng frontend
+Route::get('/bai-dang', [BaiDangController::class, 'frontendIndex'])->name('bai_dang.index');
+Route::get('/bai-dang/{id}', [BaiDangController::class, 'show'])->name('bai_dang.show');
+
+// Nhóm route cho admin
+Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/home', [AdminController::class, 'getHome'])->name('home');
 
@@ -24,11 +29,6 @@ Route::get('/', function () {
     Route::resource('goi-cuocs', GoiCuocController::class);
     Route::post('goi-cuoc/store', [GoiCuocController::class, 'store'])->name('goi_cuoc.store');
 
-    // Nhóm route cho bài đăng
-    Route::resource('bai-dangs', BaiDangController::class)->except(['show']);  // Loại bỏ route 'show' vì đã có frontend route riêng
-    Route::get('/bai-dang', [BaiDangController::class, 'frontendIndex'])->name('bai_dangs.index');
-    Route::get('/bai-dang/{id}', [BaiDangController::class, 'show'])->name('bai_dangs.show');
-
-     
-    
+    // Nhóm route cho bài đăng (admin)
+    Route::resource('bai-dangs', BaiDangController::class)->except(['show']);
 });
