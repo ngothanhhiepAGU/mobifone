@@ -1,183 +1,162 @@
-@extends('layouts.frontend')
+<section id="company-services" class="py-5">
+  <div class="container">
+    <h2 class="mb-4">Dịch vụ di động</h2>
 
-@section('content')
-<main class="l-main box-news">
-    <div class="main-content">
-        <div class="inner">
-            <!-- Breadcrumb -->
-            <div class="content-title is-desktop breadcrumb-mobifone">
-                <h2><a href="{{ url('/') }}">Trang chủ</a></h2>
-                <span class="breadcrumb-more-than"></span>
-                <h2 class="text-primary">Bài đăng</h2>
-            </div>
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-4" id="serviceTabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="data-tab" data-bs-toggle="tab" href="#data" role="tab">Gói data</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="charge-tab" data-bs-toggle="tab" href="#charge" role="tab">Gói cước</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="service-tab" data-bs-toggle="tab" href="#service" role="tab">Dịch vụ</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="subscription-tab" data-bs-toggle="tab" href="#subscription" role="tab">Loại thuê bao</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://simso.mobifone.vn/?rf=mobifone" target="_blank">Đăng ký thuê bao</a>
+      </li>
+    </ul>
 
-            <!-- Bài đăng chính -->
-            <div class="events-content news-page">
-                <div class="content-body">
-                    <div class="main-posts">
-                        @foreach ($tinChinh as $tin)
-                        <div class="post-item {{ $loop->first ? 'featured-post' : '' }}">
-                            <div class="post-image">
-                                <a href="{{ route('bai_dang.show', $tin->id) }}">
-                                    <img src="{{ $tin->image_url }}" alt="{{ $tin->tieu_de }}">
-                                </a>
-                            </div>
-                            <div class="post-content">
-                                <p class="meta">
-                                    <span>{{ $tin->the_loai ?? 'Khác' }}</span> | 
-                                    <span>{{ $tin->ngay_dang->format('d/m/Y') }}</span>
-                                </p>
-                                <h3 class="title">
-                                    <a href="{{ route('bai_dang.show', $tin->id) }}">{{ $tin->tieu_de }}</a>
-                                </h3>
-                                <p class="excerpt">{{ \Illuminate\Support\Str::limit(strip_tags($tin->noi_dung), 150) }}</p>
-                                @if ($loop->first)
-                                <p class="more">
-                                    <a href="{{ route('bai_dang.show', $tin->id) }}" class="btn btn-primary">Xem thêm</a>
-                                </p>
-                                @endif
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
+    <!-- Tab Content -->
+    <div class="tab-content" id="serviceTabsContent">
+      <!-- Tab Gói data -->
+      <div class="tab-pane fade show active" id="data" role="tabpanel">
+        <div class="row">
+          <!-- Gói dịch vụ mẫu -->
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h5 class="card-title mb-0">D5</h5>
+                  <img src="./images/slide/title.svg" alt="icon" width="32">
                 </div>
+                <p class="mb-2">
+                  <img src="./images/slide/wallet.svg" alt="" width="20" class="me-2">
+                  5.000 đ / 1 Ngày
+                </p>
+                <p class="mb-3">
+                  <img src="./images/slide/box-time.svg" alt="" width="20" class="me-2">
+                  1.00GB
+                </p>
+                <a href="#" class="btn btn-primary w-100">Đăng ký</a>
+              </div>
             </div>
-
-            <!-- Bài đăng khác -->
-            <div class="other-news mt-5">
-                <div class="title mb-3">Bài đăng khác</div>
-                <div class="other-news__content d-flex flex-wrap gap-4">
-                    @foreach ($tinKhac as $tin)
-                    <div class="news-item" style="width: 270px;">
-                        <div class="news-image">
-                            <a href="{{ route('bai_dang.show', $tin->id) }}">
-                                <img src="{{ $tin->image_url }}" alt="{{ $tin->tieu_de }}">
-                            </a>
-                        </div>
-                        <div class="news-content p-2">
-                            <p class="meta text-muted small mb-1">
-                                {{ $tin->the_loai ?? 'Khác' }} | {{ $tin->ngay_dang->format('d/m/Y') }}
-                            </p>
-                            <h3 class="title h6">
-                                <a href="{{ route('bai_dang.show', $tin->id) }}">{{ $tin->tieu_de }}</a>
-                            </h3>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-                <div class="text-center mt-4">
-                    <a href="{{ route('bai_dang.index') }}" class="btn btn-outline-primary">Xem thêm</a>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="text-center mt-3">
+          <a href="https://www.mobifone.vn/dich-vu-di-dong/loai-thue-bao" class="btn btn-link">Xem tất cả</a>
+        </div>
+      </div>
+
+      <!-- Tab Gói cước -->
+      <div class="tab-pane fade" id="charge" role="tabpanel">Đang cập nhật...</div>
+
+      <!-- Tab Dịch vụ -->
+      <div class="tab-pane fade" id="service" role="tabpanel">
+        <style>
+          .utilities-slider {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 32px;
+              justify-content: start;
+          }
+
+          .utility-card {
+              background: #ffffff;
+              border-radius: 12px;
+              overflow: hidden;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+              width: 272px;
+              transition: transform 0.3s ease;
+          }
+
+          .utility-card:hover {
+              transform: translateY(-5px);
+          }
+
+          .utility-image img {
+              width: 100%;
+              height: 160px;
+              object-fit: cover;
+              display: block;
+          }
+
+          .utility-info {
+              padding: 16px;
+              height: 180px;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+          }
+
+          .utility-title {
+              font-size: 18px;
+              color: #333;
+              margin-bottom: 10px;
+          }
+
+          .utility-desc {
+              font-size: 14px;
+              color: #555;
+              flex-grow: 1;
+          }
+
+          .utility-detail {
+              font-weight: bold;
+              color: #0066cc;
+              text-decoration: none;
+          }
+
+          .utility-detail:hover {
+              text-decoration: underline;
+          }
+        </style>
+
+        <div class="utilities-slider">
+          <!-- Card 1 -->
+          <div class="utility-card">
+            <div class="utility-image">
+              <img src="https://api.mobifone.vn/images/banner/1689238809879_Web-01.png" alt="Nạp tiền">
+            </div>
+            <div class="utility-info">
+              <h3 class="utility-title">Nạp tiền, thanh toán</h3>
+              <p class="utility-desc">Thanh toán cước và nạp tiền trực tuyến đơn giản, tiện lợi và tiết kiệm</p>
+              <a href="/tien-ich?hinh-thuc=thanh-toan-truc-tuyen" class="utility-detail">Chi tiết &rsaquo;</a>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="utility-card">
+            <div class="utility-image">
+              <img src="https://api.mobifone.vn/images/banner/1689238836229_Web-02.png" alt="Kết nối dài lâu">
+            </div>
+            <div class="utility-info">
+              <h3 class="utility-title">Kết nối dài lâu</h3>
+              <p class="utility-desc">Chương trình ưu đãi hấp dẫn cho các hội viên KNDL của MobiFone</p>
+              <a href="/ho-tro-khach-hang/ket-noi-dai-lau" class="utility-detail">Chi tiết &rsaquo;</a>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="utility-card">
+            <div class="utility-image">
+              <img src="https://api.mobifone.vn/images/banner/1700021663745_ảnh trên trăng web copy.png" alt="MyPoint">
+            </div>
+            <div class="utility-info">
+              <h3 class="utility-title">MyPoint</h3>
+              <p class="utility-desc">Ứng dụng tích tiêu muôn nơi do MobiFone đồng sáng lập</p>
+              <a href="https://www.mobifone.vn/dich-vu-di-dong/dich-vu/mypoint-MyPoint" class="utility-detail">Chi tiết &rsaquo;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Loại thuê bao -->
+      <div class="tab-pane fade" id="subscription" role="tabpanel">Đang cập nhật...</div>
     </div>
-</main>
-
-<style>
-/* Tạo kiểu dáng đẹp cho phần bài đăng chính */
-.main-posts {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.post-item {
-    width: 48%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 20px;
-    transition: transform 0.3s;
-}
-
-.post-item:hover {
-    transform: translateY(-10px);
-}
-
-.post-item .post-image img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.post-item .post-content {
-    padding: 20px;
-}
-
-.post-item .title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-.post-item .excerpt {
-    font-size: 1rem;
-    color: #555;
-}
-
-.post-item .meta {
-    font-size: 0.875rem;
-    color: #999;
-}
-
-.post-item .more {
-    margin-top: 10px;
-}
-
-.featured-post {
-    width: 100%;
-}
-
-.other-news__content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.other-news__content .news-item {
-    width: 270px;
-}
-
-.other-news__content .news-image img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
-
-.other-news__content .news-content {
-    padding: 10px;
-}
-
-.other-news__content .title {
-    font-size: 1rem;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-.more a {
-    text-decoration: none;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    border-radius: 4px;
-}
-
-.btn-outline-primary {
-    border: 2px solid #007bff;
-    color: #007bff;
-    padding: 10px 20px;
-    text-align: center;
-    border-radius: 4px;
-    text-decoration: none;
-}
-
-.btn-primary:hover, .btn-outline-primary:hover {
-    background-color: #0056b3;
-    color: white;
-}
-</style>
-@endsection
+  </div>
+</section>
