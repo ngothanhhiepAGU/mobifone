@@ -16,9 +16,10 @@
                 <tr>
                     <th>ID</th>
                     <th>Tiêu đề</th>
+                    <th>Ảnh</th> {{-- Mới thêm --}}
                     <th>Tác giả</th>
                     <th>Ngày đăng</th>
-                    <th>Thể loại</th> <!-- Thêm cột thể loại -->
+                    <th>Thể loại</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
@@ -27,11 +28,19 @@
                 <tr id="baiDang_{{ $baiDang->id }}">
                     <td>{{ $baiDang->id }}</td>
                     <td>{{ $baiDang->tieu_de }}</td>
+                    <td>
+                        @if ($baiDang->hinh_anh)
+                        <img src="{{ asset($baiDang->hinh_anh) }}" width="80" height="60" class="img-thumbnail">
+                        @else
+                            Không có ảnh
+                        @endif
+                    </td>
                     <td>{{ $baiDang->tac_gia }}</td>
                     <td>{{ $baiDang->ngay_dang }}</td>
                     <td>{{ $baiDang->the_loai ?? 'Chưa có' }}</td> <!-- Hiển thị thể loại -->
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="moModalSuaBaiDang({{ $baiDang->id }}, '{{ $baiDang->tieu_de }}', '{{ $baiDang->noi_dung }}', '{{ $baiDang->tac_gia }}', '{{ $baiDang->the_loai }}')">
+                        <button class="btn btn-warning btn-sm"
+                            onclick="moModalSuaBaiDang({{ $baiDang->id }}, '{{ $baiDang->tieu_de }}', '{{ $baiDang->noi_dung }}', '{{ $baiDang->tac_gia }}', '{{ $baiDang->the_loai }}', '{{ asset('storage/' . $baiDang->hinh_anh) }}')">
                             <i class="fas fa-edit"></i> Sửa
                         </button>
                         <button class="btn btn-danger btn-sm" onclick="xoaBaiDang({{ $baiDang->id }})">
@@ -59,6 +68,10 @@
                     <div class="mb-3">
                         <label>Tiêu đề</label>
                         <input type="text" class="form-control" name="tieu_de" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Hình ảnh</label>
+                        <input type="file" class="form-control" name="hinh_anh">
                     </div>
                     <div class="mb-3">
                         <label>Nội dung</label>
@@ -96,6 +109,10 @@
                         <input type="text" class="form-control" id="tieu_de_sua" name="tieu_de" required>
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Hình ảnh (tùy chọn)</label>
+                        <input type="file" class="form-control" name="hinh_anh">
+                    </div>
+                    <div class="mb-3">
                         <label class="form-label">Nội dung</label>
                         <textarea class="form-control" id="noi_dung_sua" name="noi_dung" rows="4" required></textarea>
                     </div>
@@ -119,12 +136,13 @@ $(document).ready(function () {
     // Thêm Bài Đăng
     $('#formThemBaiDang').submit(function (e) {
         e.preventDefault();
-        let formData = $(this).serialize();
-
+        let formData = new FormData(this);
         $.ajax({
             url: "{{ route('admin.bai-dangs.store') }}",
             type: "POST",
             data: formData,
+            contentType: false,
+            processData: false,
             success: function (response) {
                 Swal.fire("Thành công!", response.message, "success");
                 $('#modalThemBaiDang').modal('hide');
@@ -145,15 +163,19 @@ $(document).ready(function () {
     $('#formSuaBaiDang').submit(function (e) {
         e.preventDefault();
         let id = $('#baiDang_id_sua').val();
-        let formData = $(this).serialize();
+        let form = $('#formSuaBaiDang')[0];
+        let formData = new FormData(form);
+        formData.append('_method', 'PUT');
 
         $.ajax({
-            url: "/admin/bai-dangs/" + id,  // Đảm bảo đường dẫn đúng
-            type: "POST",  // POST để Laravel xử lý PUT với method spoofing
-            data: formData + "&_method=PUT",  // Đảm bảo có thêm method spoofing
+            url: "/admin/bai-dangs/" + id,
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
             success: function () {
                 Swal.fire("Thành công!", "Bài đăng đã được cập nhật.", "success");
-                location.reload();  // Reload lại trang để cập nhật
+                location.reload();
             },
             error: function (xhr) {
                 Swal.fire("Lỗi!", "Không thể cập nhật Bài đăng: " + xhr.responseText, "error");
@@ -163,14 +185,22 @@ $(document).ready(function () {
 });
 
 // Mở modal sửa
-function moModalSuaBaiDang(id, tieu_de, noi_dung, tac_gia, the_loai) {
+function moModalSuaBaiDang(id, tieu_de, noi_dung, tac_gia, the_loai, hinh_anh_url = null) {
     $('#baiDang_id_sua').val(id);
     $('#tieu_de_sua').val(tieu_de);
     $('#noi_dung_sua').val(noi_dung);
     $('#tac_gia_sua').val(tac_gia);
-    $('#the_loai_sua').val(the_loai);  // Thêm thể loại
+    $('#the_loai_sua').val(the_loai);
+
+    if (hinh_anh_url) {
+        $('#hinh_anh_sua_preview').attr('src', hinh_anh_url).show();
+    } else {
+        $('#hinh_anh_sua_preview').hide();
+    }
+
     $('#modalSuaBaiDang').modal('show');
 }
+
 
 // Xóa bài đăng
 function xoaBaiDang(id) {

@@ -36,11 +36,20 @@ class BaiDangController extends Controller
             'noi_dung'  => 'required|string',
             'tac_gia'   => 'nullable|string|max:100',
             'ngay_dang' => 'nullable|date',
-            'the_loai'  => 'nullable|string|max:100', // Thêm kiểm tra thể loại
+            'the_loai'  => 'nullable|string|max:100',
+            'hinh_anh'  => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // ảnh max 2MB
         ]);
 
         // Nếu không có ngày đăng, sử dụng ngày hiện tại
         $validated['ngay_dang'] = $validated['ngay_dang'] ?? Carbon::now();
+
+        // Xử lý upload ảnh nếu có
+        if ($request->hasFile('hinh_anh')) {
+            $image = $request->file('hinh_anh');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads/bai_dang'), $imageName);
+            $validated['hinh_anh'] = 'uploads/bai_dang/' . $imageName;
+        }
 
         $baiDang = BaiDang::create($validated);
 
@@ -50,6 +59,7 @@ class BaiDangController extends Controller
         ]);
     }
 
+
     // Cập nhật bài đăng (AJAX)
     public function update(Request $request, $id)
     {
@@ -58,17 +68,29 @@ class BaiDangController extends Controller
             'noi_dung'  => 'required|string',
             'tac_gia'   => 'nullable|string|max:100',
             'ngay_dang' => 'nullable|date',
-            'the_loai'  => 'nullable|string|max:100', // Thêm thể loại
+            'the_loai'  => 'nullable|string|max:100',
+            'hinh_anh'  => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $baiDang = BaiDang::find($id);
-
         if (!$baiDang) {
             return response()->json(['message' => 'Không tìm thấy bài viết.'], 404);
         }
 
-        // Nếu không có ngày đăng, sử dụng ngày hiện tại
         $validated['ngay_dang'] = $validated['ngay_dang'] ?? Carbon::now();
+
+        // Nếu có ảnh mới, thay thế ảnh cũ
+        if ($request->hasFile('hinh_anh')) {
+            // Xoá ảnh cũ nếu tồn tại
+            if ($baiDang->hinh_anh && file_exists(public_path($baiDang->hinh_anh))) {
+                unlink(public_path($baiDang->hinh_anh));
+            }
+
+            $image = $request->file('hinh_anh');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('uploads/bai_dang'), $imageName);
+            $validated['hinh_anh'] = 'uploads/bai_dang/' . $imageName;
+        }
 
         $baiDang->update($validated);
 
@@ -77,6 +99,7 @@ class BaiDangController extends Controller
             'baiDang' => $baiDang
         ]);
     }
+
 
     // Xóa bài đăng (AJAX)
     public function destroy($id)
