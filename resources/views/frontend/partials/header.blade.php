@@ -74,17 +74,10 @@
             </ul>
           </li>
 
-          <li class="nav-item dropdown">
-            <a class="nav-link me-4 dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
-              aria-expanded="false">RECRUITMENT</a>
-            <ul class="dropdown-menu animate slide border">
-              <li>
-                <a href="index.html" class="dropdown-item fw-light">About</a>
-              </li>
-              <li>
-                <a href="index.html" class="dropdown-item fw-light">About</a>
-              </li>
-            </ul>
+          <li class="nav-item">
+            <a class="nav-link me-4 {{ request()->is('bai-dang') ? 'active' : '' }}"
+              href="{{ route('bai_dang.index') }}">TUYỂN DỤNG</a>
+            </a>
           </li>
 
           <li class="nav-item">

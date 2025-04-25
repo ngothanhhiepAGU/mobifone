@@ -9,8 +9,9 @@ use App\Http\Controllers\BaiDangController;
 
 // Trang chủ frontend
 Route::get('/', function () {
-    return view('frontend.home');
+    return view('frontend.home.home');
 });
+
 
 // Trang bài đăng frontend
 Route::get('/bai-dang', [BaiDangController::class, 'frontendIndex'])->name('bai_dang.index');
