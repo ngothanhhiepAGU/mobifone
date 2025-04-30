@@ -9,25 +9,27 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('sims', function (Blueprint $table) {
             $table->id();
-            $table->string('so_sim')->unique();  // Số SIM (duy nhất)
-            $table->string('loai_sim');         // Loại SIM (trả trước, trả sau,...)
-            $table->string('nha_mang');         // Nhà mạng (Viettel, Mobifone, Vinaphone,...)
-            $table->enum('trang_thai', ['kich hoat', 'chua kich hoat', 'chan'])
-                  ->default('chua kich hoat'); // Chỉ cho phép 3 giá trị
-            $table->date('ngay_kich_hoat')->nullable(); // Ngày kích hoạt
-            $table->timestamps(); // created_at và updated_at
+            $table->string('so_id')->unique();
+            $table->string('loai_sim')->nullable();                                         // Cột loại SIM
+            $table->decimal('gia', 10, 2)->nullable();                                      // Cột giá SIM
+            $table->string('network_provider');                                             // Cột nhà mạng
+            $table->enum('status', ['active', 'inactive', 'blocked'])->default('inactive'); // Cột tình trạng
+            $table->date('activation_date')->nullable();                                    // Cột ngày kích hoạt
+            // Thêm cột 'loai_thue_bao' với kiểu enum, nhưng không cần sử dụng 'after'
+            $table->enum('loai_thue_bao', ['Tra Truoc', 'Tra Sau'])->default('Tra Truoc');
+            $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('sims');
+        Schema::dropIfExists('sims'); // Xóa bảng nếu cần rollback
     }
 };
