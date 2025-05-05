@@ -12,15 +12,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('sims', function (Blueprint $table) {
-            $table->id();
-            $table->string('so_id')->unique();
-            $table->string('loai_sim')->nullable();                                         // Cột loại SIM
-            $table->decimal('gia', 10, 2)->nullable();                                      // Cột giá SIM
-            $table->string('network_provider');                                             // Cột nhà mạng
-            $table->enum('status', ['active', 'inactive', 'blocked'])->default('inactive'); // Cột tình trạng
-            $table->date('activation_date')->nullable();                                    // Cột ngày kích hoạt
-            // Thêm cột 'loai_thue_bao' với kiểu enum, nhưng không cần sử dụng 'after'
-            $table->enum('loai_thue_bao', ['Tra Truoc', 'Tra Sau'])->default('Tra Truoc');
+            $table->id('so_id'); // Tự động tăng và là khóa chính
+            $table->string('sodt')->unique(); // Số điện thoại
+            $table->enum('loai_thue_bao', ['Trả trước', 'Trả sau', 'Fast Connect']); // Enum đúng theo DB
+            $table->string('network_provider');
+            $table->enum('status', ['active', 'inactive', 'blocked'])->default('inactive');
+            $table->date('activation_date')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sims'); // Xóa bảng nếu cần rollback
+        Schema::dropIfExists('sims');
     }
 };

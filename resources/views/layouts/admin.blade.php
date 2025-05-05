@@ -30,15 +30,15 @@
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
-  @include('partials.navbar')
-  @include('partials.sidebar')
+  @include('partials.admin.navbar')
+  @include('partials.admin.sidebar')
 
   <!-- Thêm class content-wrapper -->
   <div class="content-wrapper" style="margin-left: 250px; padding: 20px;">
     @yield('content')  {{-- Đây là nơi nội dung động sẽ được hiển thị --}}
   </div>
 
-  @include('partials.footer')
+  @include('partials.admin.footer')
 
 </div>
 <!-- ./wrapper -->

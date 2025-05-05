@@ -50,6 +50,13 @@
                 <p>Quản lý SIM</p>
               </a>
             </li>
+            <!-- Liên kết đến So điện thoại và người dùng -->
+            <li class="nav-item">
+              <a href="{{ route('admin.so_dien_thoai.index') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Người sở hửu</p>
+              </a>
+            </li>
             <!-- Liên kết đến Gối cước và dịch vụ -->
             <li class="nav-item">
               <a href="{{ route('admin.goi-cuocs.index') }}" class="nav-link">
@@ -59,9 +66,9 @@
             </li>
             <!-- Liên kết đến bài đăng-->
             <li class="nav-item">
-                <a href="{{ route('admin.bai-dangs.index') }}" class="nav-link">
+                <a href="{{ route('admin.tintuc.index') }}" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Bài đăng</p>
+                    <p>Tin Tức</p>
                 </a>
             </li>
             <!-- Liên kết đến Hỗ trợ khách hàng -->

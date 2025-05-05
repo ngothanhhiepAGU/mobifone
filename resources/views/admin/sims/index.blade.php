@@ -1,15 +1,28 @@
 @extends('layouts.admin')
 
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        body { background-color: #f8f9fa; }
+        .table-hover tbody tr:hover { background-color: #f1f3f5; }
+        .btn-gradient { background: linear-gradient(to right, #4facfe, #00f2fe); color: white; border: none; }
+        .btn-gradient:hover { background: linear-gradient(to right, #00f2fe, #4facfe); }
+    </style>
+</head>
+
 @section('content')
 <div class="container mt-4">
     <h2 class="text-center mb-4">Quản lý SIM</h2>
 
-    <!-- Nút Thêm SIM -->
-    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalThem">
-        <i class="fas fa-plus"></i> Thêm SIM
-    </button>
+    <div class="mb-3 text-end">
+        <button class="btn btn-gradient" data-bs-toggle="modal" data-bs-target="#modalThem">
+            <i class="fas fa-plus"></i> Thêm SIM
+        </button>
+    </div>
 
-    <!-- Danh sách SIM -->
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="table-dark">
@@ -18,26 +31,25 @@
                     <th>Số Thuê Bao</th>
                     <th>Nhà Mạng</th>
                     <th>Trạng Thái</th>
-                    <th>Loại thuê bao</th>
+                    <th> Loại thuê bao</th>
                     <th>Hành động</th>
+
                 </tr>
             </thead>
             <tbody id="danhSachSim">
                 @foreach ($sims as $sim)
-                <tr id="sim_{{ $sim->id }}">
-                    <td>{{ $sim->id }}</td>
-                    <td>{{ $sim->so_sim }}</td>
-                    <td>{{ $sim->nha_mang }}</td>
-                    <td>{{ $sim->trang_thai }}</td>
-                    <td>{{ $sim->loai_sim }}</td>
+                <tr id="sim_{{ $sim->so_id }}">
+                    <td>{{ $sim->so_id }}</td>
+                    <td>{{ $sim->sodt }}</td>
+                    <td>{{ $sim->network_provider }}</td>
+                    <td>{{ $sim->status }}</td>
+                    <td>{{ $sim->loai_thue_bao }}</td>
 
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="moModalSua({{ $sim->id }}, '{{ $sim->so_sim }}', '{{ $sim->nha_mang }}', '{{ $sim->trang_thai }}', '{{ $sim->loai_sim }}')">
+                        <button class="btn btn-warning btn-sm" onclick="moModalSua({{ $sim->so_id }}, '{{ $sim->sodt }}', '{{ $sim->network_provider }}', '{{ $sim->status }}')">
                             <i class="fas fa-edit"></i> Sửa
                         </button>
-                        <button class="btn btn-danger btn-sm" onclick="xoaSim({{ $sim->id }})">
-                            <i class="fas fa-trash"></i> Xóa
-                        </button>
+                        
                     </td>
                 </tr>
                 @endforeach
@@ -46,7 +58,6 @@
     </div>
 </div>
 
-<!-- Modal Thêm SIM -->
 <div class="modal fade" id="modalThem" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -58,42 +69,40 @@
                 <form id="formThem">
                     @csrf
                     <div class="mb-3">
-                        <label>Số SIM</label>
-                        <input type="text" class="form-control" name="so_sim" required>
+                        <label class="form-label">Số Thuê Bao</label>
+                        <input type="text" class="form-control" id="sodt" name="sodt" required>
                     </div>
                     <div class="mb-3">
-                        <label>Nhà Mạng</label>
-                        <input type="text" class="form-control" name="nha_mang" required>
+                        <label class="form-label">Nhà Mạng</label>
+                        <input type="text" class="form-control" id="network_provider" name="network_provider">
                     </div>
+                    
                     <div class="mb-3">
-                        <label>Loại SIM</label>
-                        <select name="loai_sim" class="form-control" required>
+                        <label class="form-label">Trạng Thái</label>
+                        <select class="form-control" id="status" name="status">
+                            <option value="active">Hoạt động</option>
+                            <option value="inactive">Chưa kích hoạt</option>
+                            <option value="blocked">Bị khóa</option>
+                        </select>
+                    </div> 
+                    <div class="mb-3">
+                        <label for="loai_thue_bao" class="form-label">Loại Thuê Bao</label>
+                        <select class="form-control" id="loai_thue_bao" name="loai_thue_bao" required>
                             <option value="Tra Truoc">Trả Trước</option>
                             <option value="Tra Sau">Trả Sau</option>
                         </select>
-                    </div>
-                    <div class="mb-3">
-                        <label>Trạng Thái</label>
-                        <select name="trang_thai" class="form-control" required>
-                            <option value="kich hoat">Kích hoạt</option>
-                            <option value="chua kich hoat">Chưa kích hoạt</option>
-                            <option value="chan">Chặn</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label>Ngày kích hoạt</label>
-                        <input type="date" class="form-control" name="ngay_kich_hoat">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Thêm</button>
+                    </div>                 
                 </form>
-            </div>
-        </div>
+                </div>
+                    <div class="modal-footer">
+                        <button type="submit" form="formThem" class="btn btn-primary">Thêm</button>
+                    </div>
+             </div>
+         </div>
     </div>
 </div>
 
-
-<!-- Modal Sửa SIM -->
-<div class="modal fade" id="modalSua" tabindex="-1">
+    <div class="modal fade" id="modalSua" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -106,27 +115,30 @@
                     <input type="hidden" id="so_id_sua" name="so_id">
                     <div class="mb-3">
                         <label class="form-label">Số Thuê Bao</label>
-                        <input type="text" class="form-control" id="sodt_sua" name="so_sim" required>
+                        <input type="text" class="form-control" id="sodt_sua" name="sodt" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Nhà Mạng</label>
-                        <input type="text" class="form-control" id="network_provider_sua" name="nha_mang">
+                        <input type="text" class="form-control" id="network_provider_sua" name="network_provider">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Trạng Thái</label>
-                        <select class="form-control" id="status_sua" name="trang_thai">
-                            <option value="kich hoat">Kích hoạt</option>
-                            <option value="chua kich hoat">Chưa kích hoạt</option>
-                            <option value="chan">Chặn</option>
+                        <select class="form-control" id="status_sua" name="status">
+                            <option value="active">Hoạt động</option>
+                            <option value="inactive">Chưa kích hoạt</option>
+                            <option value="blocked">Bị khóa</option>
                         </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="loai_thue_bao">Loại Thuê Bao</label>
+                            <select name="loai_thue_bao" class="form-control" required>
+                                <option value="Tra Truoc">Trả Trước</option>
+                                <option value="Tra Sau">Trả Sau</option>
+                             </select>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Loại Thuê Bao</label>
-                        <select class="form-control" name="loai_sim" required>
-                            <option value="Tra Truoc">Trả Trước</option>
-                            <option value="Tra Sau">Trả Sau</option>
-                        </select>
-                    </div>
+
+
                     <button type="submit" class="btn btn-primary">Cập nhật</button>
                 </form>
             </div>
@@ -136,36 +148,37 @@
 
 <script>
 $(document).ready(function () {
-    // Thêm SIM
-    $('#formThem').submit(function (e) {
-        e.preventDefault();
+    $('#formThem').submit(function (event) {
+        event.preventDefault();
         let formData = $(this).serialize();
 
         $.ajax({
             url: "{{ route('admin.sims.store') }}",
             type: "POST",
             data: formData,
-            success: function (response) {
-                Swal.fire("Thành công!", response.message, "success");
-                $('#modalThem').modal('hide');
-                setTimeout(() => location.reload(), 1000);
+            success: function () {
+                Swal.fire("Thành công!", "SIM đã được thêm.", "success");
+                location.reload();
             },
-            error: function (xhr) {
-                let errors = xhr.responseJSON.errors;
-                let msg = '';
-                for (let field in errors) {
-                    msg += errors[field].join('<br>') + '<br>';
-                }
-                Swal.fire("Lỗi!", msg, "error");
+            error: function (xhr, status, error) {
+                // Xử lý lỗi chi tiết
+                Swal.fire("Lỗi!", "Không thể thêm SIM: " + xhr.responseText, "error");
             }
         });
     });
+});
 
-
-    // Cập nhật SIM
+function moModalSua(so_id, sodt, network_provider, status) {
+    $('#so_id_sua').val(so_id);
+    $('#sodt_sua').val(sodt);
+    $('#network_provider_sua').val(network_provider);
+    $('#status_sua').val(status);  // Đảm bảo status có giá trị đúng
+    $('#modalSua').modal('show');
+}
+$(document).ready(function () {
     $('#formSua').submit(function (event) {
         event.preventDefault();
-
+        
         let so_id = $('#so_id_sua').val();
         let formData = $(this).serialize();
 
@@ -184,19 +197,9 @@ $(document).ready(function () {
     });
 });
 
-// Mở modal sửa SIM
-function moModalSua(id, so_sim, nha_mang, trang_thai, loai_sim) {
-    $('#so_id_sua').val(id);
-    $('#sodt_sua').val(so_sim);
-    $('#network_provider_sua').val(nha_mang);
-    $('#status_sua').val(trang_thai);
-    $('select[name="loai_thue_bao"]').val(loai_sim);
-    $('#modalSua').modal('show');
-}
 
 
-// Xóa SIM
-function xoaSim(id) {
+function xoaSim(so_id) {
     Swal.fire({
         title: "Bạn có chắc chắn muốn xóa?",
         icon: "warning",
@@ -206,12 +209,12 @@ function xoaSim(id) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: "/admin/sims/" + id,
+                url: "/admin/sims/" + so_id,
                 type: "POST",
                 data: { _method: "DELETE", _token: "{{ csrf_token() }}" },
                 success: function () {
                     Swal.fire("Đã xóa!", "SIM đã được xóa.", "success");
-                    $('#sim_' + id).remove();
+                    location.reload();
                 },
                 error: function () {
                     Swal.fire("Lỗi!", "Không thể xóa SIM.", "error");

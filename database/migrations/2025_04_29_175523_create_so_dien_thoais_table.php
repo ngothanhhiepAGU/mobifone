@@ -9,22 +9,25 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('so_dien_thoai', function (Blueprint $table) {
             $table->id();
-            $table->string('so')->unique();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('so');
             $table->string('chu_so_huu');
             $table->timestamps();
+
+            // Ràng buộc khóa ngoại từ `so` đến `sims.sodt`
+            $table->foreign('so')->references('sodt')->on('sims')->onDelete('cascade');
         });
     }
-    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('so_dien_thoais');
+        Schema::dropIfExists('so_dien_thoai');
     }
 };
