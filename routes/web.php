@@ -37,6 +37,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // >>> ADMIN - Sim
     Route::resource('sims', SimController::class);
     Route::put('sims/{so_id}', [SimController::class, 'update'])->name('sims.update');
+    Route::delete('sims/{so_id}', [SimController::class, 'destroy'])->name('sims.destroy');
 
     // >>> ADMIN - Gói Cước
     Route::resource('goi-cuocs', GoiCuocController::class);
@@ -81,9 +82,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // Trang chủ frontend
 Route::get('/', function () {
-    return view('frontend.home');
-})->name('frontend.home');
+    return view('frontend.home.home');
+})->name('frontend.home.home');
 
+    // >>> FRONTEND - Gối cước
     Route::get('/goi_cuoc', [FrontendGoiCuocController::class, 'index'])->name('frontend.goicuoc');
     Route::post('/dang_ky_goi_cuoc', [FrontendGoiCuocController::class, 'dangKy'])->name('frontend.dangky');
 
@@ -92,7 +94,9 @@ Route::get('/', function () {
         Route::get('/lich_su_dang_ky', [FrontendGoiCuocController::class, 'lichSu'])->name('frontend.lichsu');
     });
 
+    // >>> FRONTEND - Tin tức
     Route::get('/tin-tuc', [FrontendTinTucController::class, 'index'])->name('frontend.tin_tuc.index');
+    Route::get('/tin-tuc', [FrontendTinTucController::class, 'index'])->name('tin_tuc.index');
     Route::get('/tin-tuc/{id}', [FrontendTinTucController::class, 'show'])->name('frontend.tin_tuc.show');
 
     Route::prefix('dich-vu/loai-thue-bao')->name('frontend.goicuocloai.')->group(function () {

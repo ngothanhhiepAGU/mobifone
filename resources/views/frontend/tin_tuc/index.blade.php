@@ -51,7 +51,7 @@
                         @foreach ($tinChinh as $tin)
                         <div class="post-item {{ $loop->first ? 'featured-post' : '' }} d-md-flex gap-4 mb-4 p-3 border rounded shadow-sm bg-white">
                             <div class="post-image flex-shrink-0" style="max-width: 320px;">
-                                <a href="{{ route('bai_dang.show', $tin->id) }}">
+                                <a href="{{ route('tin_tuc.show', $tin->id) }}">
                                     <img src="{{ asset($tin->hinh_anh ?? 'images/default.jpg') }}" alt="{{ $tin->tieu_de }}" class="img-fluid rounded w-100" style="object-fit: cover; height: 200px;">
                                 </a>
                             </div>
@@ -60,11 +60,11 @@
                                     <strong class="text-primary">{{ $tin->the_loai ?? 'Khác' }}</strong> | {{ $tin->ngay_dang->format('d/m/Y') }}
                                 </p>
                                 <h3 class="title h5 fw-bold mb-2">
-                                    <a href="{{ route('bai_dang.show', $tin->id) }}" class="text-dark text-decoration-none">{{ $tin->tieu_de }}</a>
+                                    <a href="{{ route('tin_tuc.show', $tin->id) }}" class="text-dark text-decoration-none">{{ $tin->tieu_de }}</a>
                                 </h3>
                                 <p class="excerpt text-muted mb-2">{{ \Illuminate\Support\Str::limit(strip_tags($tin->noi_dung), 150) }}</p>
                                 @if ($loop->first)
-                                <a href="{{ route('bai_dang.show', $tin->id) }}" class="btn btn-primary btn-sm mt-2 px-4">Xem thêm</a>
+                                <a href="{{ route('tin_tuc.show', $tin->id) }}" class="btn btn-primary btn-sm mt-2 px-4">Xem thêm</a>
                                 @endif
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                     @foreach ($tinKhac as $tin)
                     <div class="col-md-4 col-sm-6">
                         <div class="news-item border rounded overflow-hidden shadow-sm h-100 bg-white d-flex flex-column">
-                            <a href="{{ route('bai_dang.show', $tin->id) }}">
+                            <a href="{{ route('tin_tuc.show', $tin->id) }}">
                                 <img src="{{ asset($tin->hinh_anh ?? 'images/default.jpg') }}" alt="{{ $tin->tieu_de }}" class="img-fluid w-100" style="height: 180px; object-fit: cover;">
                             </a>
                             <div class="news-content p-3 flex-grow-1 d-flex flex-column">
@@ -88,9 +88,9 @@
                                     <i class="fa fa-calendar-alt me-1"></i> {{ $tin->the_loai ?? 'Khác' }} | {{ $tin->ngay_dang->format('d/m/Y') }}
                                 </p>
                                 <h3 class="title h6 fw-semibold mb-2 flex-grow-1">
-                                    <a href="{{ route('bai_dang.show', $tin->id) }}" class="text-dark text-decoration-none">{{ $tin->tieu_de }}</a>
+                                    <a href="{{ route('tin_tuc.show', $tin->id) }}" class="text-dark text-decoration-none">{{ $tin->tieu_de }}</a>
                                 </h3>
-                                <a href="{{ route('bai_dang.show', $tin->id) }}" class="text-primary mt-auto small">Xem chi tiết →</a>
+                                <a href="{{ route('tin_tuc.show', $tin->id) }}" class="text-primary mt-auto small">Xem chi tiết →</a>
                             </div>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="text-center mt-5">
-                    <a href="{{ route('bai_dang.index') }}" class="btn btn-outline-primary px-5">Xem thêm bài viết</a>
+                    <a href="{{ route('tin_tuc.index') }}" class="btn btn-outline-primary px-5">Xem thêm bài viết</a>
                 </div>
             </div>
 

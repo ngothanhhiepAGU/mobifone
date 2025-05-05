@@ -46,10 +46,21 @@
                     <td>{{ $sim->loai_thue_bao }}</td>
 
                     <td>
-                        <button class="btn btn-warning btn-sm" onclick="moModalSua({{ $sim->so_id }}, '{{ $sim->sodt }}', '{{ $sim->network_provider }}', '{{ $sim->status }}')">
-                            <i class="fas fa-edit"></i> Sửa
-                        </button>
-                        
+                    <button class="btn btn-warning btn-sm btn-edit" 
+                        data-id="{{ $sim->so_id }}"
+                        data-so="{{ $sim->sodt }}"
+                        data-loai="{{ $sim->loai_sim }}"
+                        data-nha_mang="{{ $sim->network_provider }}"
+                        data-trang_thai="{{ $sim->status }}"
+                        data-ngay="{{ $sim->ngay_kich_hoat }}">
+                        <i class="fas fa-edit"></i> Sửa
+                    </button>
+
+                    <button class="btn btn-danger btn-sm btn-delete" data-id="{{ $sim->so_id }}">
+                        <i class="fas fa-trash"></i> Xóa
+                    </button>
+
+
                     </td>
                 </tr>
                 @endforeach
@@ -148,54 +159,155 @@
 
 <script>
 $(document).ready(function () {
+
+    // Xử lý thêm SIM
     $('#formThem').submit(function (event) {
         event.preventDefault();
+
         let formData = $(this).serialize();
 
         $.ajax({
             url: "{{ route('admin.sims.store') }}",
             type: "POST",
             data: formData,
-            success: function () {
-                Swal.fire("Thành công!", "SIM đã được thêm.", "success");
-                location.reload();
-            },
-            error: function (xhr, status, error) {
-                // Xử lý lỗi chi tiết
-                Swal.fire("Lỗi!", "Không thể thêm SIM: " + xhr.responseText, "error");
-            }
-        });
-    });
-});
-
-function moModalSua(so_id, sodt, network_provider, status) {
-    $('#so_id_sua').val(so_id);
-    $('#sodt_sua').val(sodt);
-    $('#network_provider_sua').val(network_provider);
-    $('#status_sua').val(status);  // Đảm bảo status có giá trị đúng
-    $('#modalSua').modal('show');
-}
-$(document).ready(function () {
-    $('#formSua').submit(function (event) {
-        event.preventDefault();
-        
-        let so_id = $('#so_id_sua').val();
-        let formData = $(this).serialize();
-
-        $.ajax({
-            url: "/admin/sims/" + so_id, 
-            type: "POST",
-            data: formData + "&_method=PUT",
-            success: function () {
-                Swal.fire("Thành công!", "SIM đã được cập nhật.", "success");
-                location.reload();
+            success: function (response) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: response.message,
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        let newRow = `
+                            <tr id="sim_${response.sim.id}">
+                                <td>${response.sim.id}</td>
+                                <td>${response.sim.so}</td>
+                                <td>${response.sim.loai_sim}</td>
+                                <td>${response.sim.network_provider}</td>
+                                <td>${response.sim.status}</td>
+                                <td>${response.sim.ngay_kich_hoat}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-sm btn-edit" 
+                                        data-id="${response.sim.id}" 
+                                        data-so="${response.sim.so}" 
+                                        data-loai="${response.sim.loai_sim}" 
+                                        data-nha_mang="${response.sim.network_provider}" 
+                                        data-trang_thai="${response.sim.status}" 
+                                        data-ngay="${response.sim.ngay_kich_hoat}">
+                                        <i class="fas fa-edit"></i> Sửa
+                                    </button>
+                                    <button class="btn btn-danger btn-sm btn-delete" data-id="${response.sim.id}">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                        $('#danhSachSim').append(newRow);
+                        $('#modalThem').modal('hide');
+                        $('#formThem')[0].reset();
+                    }
+                });
             },
             error: function (xhr) {
-                Swal.fire("Lỗi!", "Không thể cập nhật SIM: " + xhr.responseText, "error");
+                Swal.fire("Lỗi!", "Không thể thêm SIM: " + (xhr.responseJSON?.message || "Đã có lỗi xảy ra."), "error");
             }
         });
     });
+
+    // Hiển thị modal sửa khi nhấn vào nút sửa
+    $(document).on('click', '.btn-edit', function () {
+        $('#so_id_sua').val($(this).data('id'));
+        $('#sodt_sua').val($(this).data('so'));
+        $('#loai_sim_sua').val($(this).data('loai'));
+        $('#network_provider_sua').val($(this).data('nha_mang'));
+        $('#status_sua').val($(this).data('trang_thai'));
+        $('#ngay_kich_hoat_sua').val($(this).data('ngay'));
+        $('#modalSua').modal('show');
+    });
+
+    // Xử lý cập nhật SIM
+    $('#formSua').submit(function (event) {
+        event.preventDefault();
+
+        let so_id = $('#so_id_sua').val();
+        let formData = $(this).serialize() + "&_method=PUT";
+
+        $.ajax({
+            url: "/admin/sims/" + so_id,
+            type: "POST",
+            data: formData,
+            success: function (response) {
+                Swal.fire("Cập nhật thành công!", response.message, "success");
+                $('#modalSua').modal('hide');
+
+                let updatedRow = `
+                    <td>${response.sim.id}</td>
+                    <td>${response.sim.so}</td>
+                    <td>${response.sim.loai_sim}</td>
+                    <td>${response.sim.network_provider}</td>
+                    <td>${response.sim.status}</td>
+                    <td>${response.sim.ngay_kich_hoat}</td>
+                    <td>
+                        <button class="btn btn-warning btn-sm btn-edit" 
+                            data-id="${response.sim.id}" 
+                            data-so="${response.sim.so}" 
+                            data-loai="${response.sim.loai_sim}" 
+                            data-nha_mang="${response.sim.network_provider}" 
+                            data-trang_thai="${response.sim.status}" 
+                            data-ngay="${response.sim.ngay_kich_hoat}">
+                            <i class="fas fa-edit"></i> Sửa
+                        </button>
+                        <button class="btn btn-danger btn-sm btn-delete" data-id="${response.sim.id}">
+                            <i class="fas fa-trash"></i> Xóa
+                        </button>
+                    </td>
+                `;
+
+                $(`#sim_${response.sim.id}`).html(updatedRow);
+            },
+            error: function (xhr) {
+                Swal.fire("Lỗi!", "Không thể cập nhật SIM: " + (xhr.responseJSON?.message || "Đã có lỗi xảy ra."), "error");
+            }
+        });
+    });
+
+    // Xử lý xóa SIM
+    $(document).on("click", ".btn-delete", function () {
+        let so_id = $(this).data("id");
+
+        Swal.fire({
+            title: 'Bạn chắc chắn muốn xóa?',
+            text: 'Dữ liệu SIM sẽ bị xóa và không thể khôi phục.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Xóa',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "/admin/sims/" + so_id, // đúng URL resource
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        _method: "DELETE"
+                    },
+                    success: function (response) {
+                        Swal.fire("Đã xóa!", response.message, "success");
+                        $(`#sim_${so_id}`).remove();
+                    },
+                    error: function () {
+                        Swal.fire("Có lỗi!", "Không thể xóa SIM.", "error");
+                    }
+                });
+            }
+        });
+    });
+
+
+
 });
+</script>
+
 
 
 

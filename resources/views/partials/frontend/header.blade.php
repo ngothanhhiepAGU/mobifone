@@ -75,14 +75,14 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link me-4 {{ request()->is('bai-dang') ? 'active' : '' }}"
-              href="{{ route('bai_dang.index') }}">TUYỂN DỤNG</a>
+            <a class="nav-link me-4 {{ request()->is('tin-tuc') ? 'active' : '' }}"
+              href="{{ route('tin_tuc.index') }}">TUYỂN DỤNG</a>
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link me-4 {{ request()->is('bai-dang') ? 'active' : '' }}"
-              href="{{ route('bai_dang.index') }}">BÀI ĐĂNG</a>
+            <a class="nav-link me-4 {{ request()->is('tin-tuc') ? 'active' : '' }}"
+              href="{{ route('tin_tuc.index') }}">BÀI ĐĂNG</a>
             </a>
           </li>
 

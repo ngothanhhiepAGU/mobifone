@@ -13,7 +13,11 @@ return new class extends Migration
     {
         Schema::create('admins', function (Blueprint $table) {
             $table->id(); // Cột ID tự tăng
-            $table->timestamps(); // Tạo các cột created_at và updated_at
+            $table->string('name')->nullable(); // Tên admin
+            $table->string('avatar')->nullable(); // Ảnh đại diện
+            $table->string('email')->unique()->nullable(); // Email
+            $table->string('password')->nullable(); // Mật khẩu
+            $table->timestamps(); // created_at và updated_at
         });
     }
 
@@ -25,3 +29,4 @@ return new class extends Migration
         Schema::dropIfExists('admins'); // Xóa bảng khi rollback migration
     }
 };
+
