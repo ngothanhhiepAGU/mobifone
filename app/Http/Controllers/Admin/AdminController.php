@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller; // <- thêm dòng này nếu chưa có
 
 class AdminController extends Controller
 {
-    public function getHome()
+    public function index()
     {
         return view('admin.home');
     }

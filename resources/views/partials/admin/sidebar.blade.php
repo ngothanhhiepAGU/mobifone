@@ -1,8 +1,11 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
-  <!-- Brand Logo -->
-  <a href="index3.html" class="brand-link">
-    <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <a href="{{ route('admin.home') }}" class="brand-link">
+    <img src="{{ asset('images/logo.png') }}" 
+      alt="MOBIFONE Logo" 
+      class="brand-image elevation-3" 
+      style="opacity: .8" 
+      onerror="this.onerror=null; this.src='https://via.placeholder.com/40?text=Logo';">
     <span class="brand-text font-weight-light">MOBIFONE</span>
   </a>
 
@@ -11,10 +14,10 @@
     <!-- User Info -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        <img src="{{ asset('dist/img/user2-160x160.jpg') }}" alt="User Image" class="img-circle elevation-2">
       </div>
       <div class="info">
-        <a href="#" class="d-block">Ngô Thanh Hiệp</a>
+        <a href="#" class="d-block">{{ Auth::guard('admin')->user()->name ?? 'Ngô Thanh Hiệp' }}</a>
       </div>
     </div>
 
@@ -34,8 +37,8 @@
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Dropdown Menu -->
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
+        <li class="nav-item has-treeview menu-open">
+          <a href="#" class="nav-link active">
             <i class="nav-icon fas fa-cogs"></i>
             <p>
               Tính Năng Thêm
@@ -50,26 +53,26 @@
                 <p>Quản lý SIM</p>
               </a>
             </li>
-            <!-- Liên kết đến So điện thoại và người dùng -->
+            <!-- Liên kết đến Số điện thoại và người dùng -->
             <li class="nav-item">
               <a href="{{ route('admin.so_dien_thoai.index') }}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Người sở hửu</p>
+                <p>Người sở hữu</p>
               </a>
             </li>
-            <!-- Liên kết đến Gối cước và dịch vụ -->
+            <!-- Liên kết đến Gói cước và dịch vụ -->
             <li class="nav-item">
               <a href="{{ route('admin.goi-cuocs.index') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Gói cước</p>
+                <i class="far fa-circle nav-icon"></i>
+                <p>Gói cước</p>
               </a>
             </li>
-            <!-- Liên kết đến bài đăng-->
+            <!-- Liên kết đến Tin tức -->
             <li class="nav-item">
-                <a href="{{ route('admin.tintuc.index') }}" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Tin Tức</p>
-                </a>
+              <a href="{{ route('admin.tintuc.index') }}" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Tin tức</p>
+              </a>
             </li>
             <!-- Liên kết đến Hỗ trợ khách hàng -->
             <li class="nav-item has-treeview">
@@ -84,32 +87,48 @@
                 <li class="nav-item">
                   <a href="#" class="nav-link">
                     <i class="far fa-dot-circle nav-icon"></i>
-                    <p>Ưu đãi</p>
+                    <p>Ưu đãi (Chưa có)</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link">
                     <i class="far fa-dot-circle nav-icon"></i>
-                    <p>Vấn đáp</p>
+                    <p>Vấn đáp (Chưa có)</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link">
                     <i class="far fa-dot-circle nav-icon"></i>
-                    <p>Phản ánh</p>
+                    <p>Phản ánh (Chưa có)</p>
                   </a>
                 </li>
               </ul>
             </li>
-            <a href="#" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Quản lý bài đăng</p>
-            </a>
-            <a href="#" class="nav-link">
-              <i class="far fa-circle nav-icon"></i>
-              <p>Quản lý tin tuyển dụng</p>
-            </a>
+            <!-- Liên kết đến Quản lý bài đăng -->
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Quản lý bài đăng (Chưa có)</p>
+              </a>
+            </li>
+            <!-- Liên kết đến Quản lý tin tuyển dụng -->
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Quản lý tin tuyển dụng (Chưa có)</p>
+              </a>
+            </li>
           </ul>
+        </li>
+        <!-- Nút đăng xuất -->
+        <li class="nav-item">
+          <form action="{{ route('admin.logout') }}" method="POST" class="d-flex">
+            @csrf
+            <button type="submit" class="nav-link w-100 text-left" onclick="return confirm('Bạn có chắc chắn muốn đăng xuất không?');">
+              <i class="nav-icon fas fa-sign-out-alt"></i>
+              <p class="d-inline">Đăng xuất</p>
+            </button>
+          </form>
         </li>
       </ul>
     </nav>

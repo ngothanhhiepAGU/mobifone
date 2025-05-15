@@ -308,32 +308,5 @@ $(document).ready(function () {
 });
 </script>
 
-
-
-
-function xoaSim(so_id) {
-    Swal.fire({
-        title: "Bạn có chắc chắn muốn xóa?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Xóa",
-        cancelButtonText: "Hủy"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: "/admin/sims/" + so_id,
-                type: "POST",
-                data: { _method: "DELETE", _token: "{{ csrf_token() }}" },
-                success: function () {
-                    Swal.fire("Đã xóa!", "SIM đã được xóa.", "success");
-                    location.reload();
-                },
-                error: function () {
-                    Swal.fire("Lỗi!", "Không thể xóa SIM.", "error");
-                }
-            });
-        }
-    });
-}
 </script>
 @endsection

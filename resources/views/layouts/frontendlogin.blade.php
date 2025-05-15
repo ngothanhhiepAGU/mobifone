@@ -196,7 +196,7 @@
 
       </div>
     </div>  -->
-    @include('partials.frontend.header')
+    @include('partials.frontend.headerlogin')
     <div class="container">
         @yield('content')
     </div>

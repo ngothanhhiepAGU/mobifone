@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         // Kiểm tra đăng nhập với guard 'web'
         if (Auth::guard('web')->attempt($request->only('email', 'password'))) {
-            return redirect()->route('frontend.home');
+            return redirect()->route('frontend.home.home');
         }
 
         // Nếu đăng nhập thất bại, kiểm tra xem có phải admin không

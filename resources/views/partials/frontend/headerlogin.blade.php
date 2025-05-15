@@ -75,7 +75,7 @@
             </li>
           </ul>
 
-          <div class="user-items d-flex">
+          <!-- <div class="user-items d-flex">
             <ul class="d-flex justify-content-end list-unstyled mb-0 align-items-center">
               <li class="search-item pe-3">
                 <a href="#" class="search-button">
@@ -175,7 +175,7 @@
                     <a href="{{ route('frontend.home.home') }}" class="w-100 btn btn-primary" type="submit">Go to checkout</a>
                   </div>
                 </div>
-              </li>
+              </li> -->
               <!-- Thêm nút Đăng nhập, Đăng ký, Đăng xuất -->
               @guest
                 <li class="pe-3">

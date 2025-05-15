@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Session;  // Đảm bảo đã có model Session
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -19,47 +19,50 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        Log::info('Admin login attempt', ['email' => $credentials['email']]);
 
-        // Kiểm tra đăng nhập
+        // Kiểm tra thủ công trước khi attempt
+        $admin = \App\Models\Admin::where('email', $credentials['email'])->first();
+        if ($admin) {
+            Log::info('Admin found', ['admin' => $admin->toArray()]);
+            if (\Hash::check($credentials['password'], $admin->password)) {
+                Log::info('Password matches');
+            } else {
+                Log::warning('Password does not match');
+            }
+        } else {
+            Log::warning('Admin not found', ['email' => $credentials['email']]);
+        }
+
         if (Auth::guard('admin')->attempt($credentials)) {
-            $user = Auth::guard('admin')->user();
-            $ip_address = $request->ip();
-            $user_agent = $request->header('User-Agent');
-            $token = bin2hex(random_bytes(32));  // Tạo token ngẫu nhiên
-            
-            // Lưu session vào bảng sessions
-            Session::create([
-                'id' => $token,
-                'user_id' => null, // Nếu không sử dụng user, để null
-                'admin_id' => $user->id,  // Lưu admin_id
-                'ip_address' => $ip_address,
-                'user_agent' => $user_agent,
-                'last_activity' => time(),
-                'token' => $token,
-            ]);
+            $admin = Auth::guard('admin')->user();
+            Log::info('Admin login successful', ['admin' => $admin->toArray()]);
 
-            // Chuyển hướng đến trang quản trị sau khi đăng nhập thành công
+            // Lưu thông tin vào session mặc định
+            $token = bin2hex(random_bytes(32));
+            $request->session()->put('admin_token', $token);
+            $request->session()->put('admin_ip', $request->ip());
+            $request->session()->put('admin_user_agent', $request->header('User-Agent'));
+
             return redirect()->intended('/admin/home');
         }
 
-        // Nếu đăng nhập không thành công
+        Log::warning('Admin login failed', ['email' => $credentials['email']]);
         return back()->withErrors([
             'email' => 'Thông tin đăng nhập không chính xác.',
-        ]);
+        ])->withInput();
     }
 
     // Xử lý đăng xuất
     public function logout(Request $request)
     {
-        // Xóa session khỏi bảng sessions
-        $user = Auth::guard('admin')->user();
-        $token = $request->header('Authorization');  // Giả sử token được gửi qua header
+        Log::info('Admin logout', ['admin_id' => Auth::guard('admin')->id()]);
 
-        // Xóa session với token liên quan
-        Session::where('token', $token)->delete();
-
-        // Đăng xuất
         Auth::guard('admin')->logout();
-        return redirect()->route('admin.login');
+        $request->session()->forget('admin_token');
+        $request->session()->forget('admin_ip');
+        $request->session()->forget('admin_user_agent');
+
+        return redirect()->route('admin.login.get');
     }
 }
